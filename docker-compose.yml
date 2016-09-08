@@ -1,0 +1,30 @@
+version: '2'
+
+services:
+  mariadb:
+    container_name: vivo-mariadb
+    image: bitnami/mariadb:latest
+    environment:
+      - MARIADB_ROOT_PASSWORD=vitrodbPassword
+      - MARIADB_USER=vitrodbUsername
+      - MARIADB_PASSWORD=vitrodbPassword
+      - MARIADB_DATABASE=vitrodb
+
+  tomcat:
+    container_name: vivo-tomcat
+    image: g8tor/docker-tomcat8-maven:1
+    ports:
+      - "8080:8080"
+    environment:
+      - VIVO_HOME=/usr/local/vivo/home
+    volumes:
+      - './files:/opt/vivo/files'
+      - './files/home:/usr/local/vivo/home'
+      - './files/wars:/usr/local/tomcat/webapps'
+    depends_on:
+      - "mariadb"
+    links:
+      - mariadb:mariadb
+    entrypoint: /bin/sh /opt/vivo/files/entry.sh
+
+    #command: cd /opt/vivo/VIVO && mvn install -s ../custom-vivo-installer/custom-vivo-settings.xml && catalina.sh run
