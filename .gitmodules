@@ -1,6 +1,0 @@
-[submodule "Vitro"]
-	path = Vitro
-	url = ./Vitro
-[submodule "VIVO"]
-	path = VIVO
-	url = ./VIVO
