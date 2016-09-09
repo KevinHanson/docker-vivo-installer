@@ -1,30 +1,41 @@
 version: '2'
 
+# Begin services definition
 services:
+  # Begin mariadb definition
   mariadb:
+    # Name the container
     container_name: vivo-mariadb
+    # Use an existing mariadb image
     image: bitnami/mariadb:latest
+    # Set ENVIRONMENT variables
     environment:
       - MARIADB_ROOT_PASSWORD=vitrodbPassword
       - MARIADB_USER=vitrodbUsername
       - MARIADB_PASSWORD=vitrodbPassword
       - MARIADB_DATABASE=vitrodb
-
+  # Begin tomcat definition
   tomcat:
+    # Name the container
     container_name: vivo-tomcat
-    image: g8tor/docker-tomcat8-maven:1
+    # Use the Dockerfile in this directory
+    build: .
+    # Expose ports to host machine
     ports:
       - "8080:8080"
+    # Set ENVIRONMENT variables
     environment:
       - VIVO_HOME=/usr/local/vivo/home
+    # Mount local filesystems
     volumes:
       - './files:/opt/vivo/files'
       - './files/home:/usr/local/vivo/home'
       - './files/wars:/usr/local/tomcat/webapps'
+    # Make tomcat dependent on mariadb
     depends_on:
       - "mariadb"
+    # Explicitly link the tomcat service to mariadb
     links:
       - mariadb:mariadb
+    # Call the entrypoint script
     entrypoint: /bin/sh /opt/vivo/files/entry.sh
-
-    #command: cd /opt/vivo/VIVO && mvn install -s ../custom-vivo-installer/custom-vivo-settings.xml && catalina.sh run
