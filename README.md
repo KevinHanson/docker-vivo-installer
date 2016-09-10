@@ -147,10 +147,11 @@ MariaDB [vitrodb]>
 
 # FINALLY
 
-Open your browser and navigate to http://localhost:8080/vivo 
+Open your browser and navigate to http://localhost:8080/vivo/
 
 # CONGRATS
-You have successfully deployed your Dockerized VIVO Development environment.
+If you see the VIVO startup screen,
+you have successfully deployed your customized Dockerized VIVO Development environment.
 
 
 --g8tor@swamp
