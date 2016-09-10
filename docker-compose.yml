@@ -23,14 +23,6 @@ services:
     # Expose ports to host machine
     ports:
       - "8080:8080"
-    # Set ENVIRONMENT variables
-    environment:
-      - VIVO_HOME=/usr/local/vivo/home
-    # Mount local filesystems
-    volumes:
-      - './files:/opt/vivo/files'
-      - './files/home:/usr/local/vivo/home'
-      - './files/wars:/usr/local/tomcat/webapps'
     # Make tomcat dependent on mariadb
     depends_on:
       - "mariadb"
@@ -38,4 +30,4 @@ services:
     links:
       - mariadb:mariadb
     # Call the entrypoint script
-    entrypoint: /bin/sh /opt/vivo/files/entry.sh
+    entrypoint: /bin/sh /opt/vivo/bin/entry.sh
